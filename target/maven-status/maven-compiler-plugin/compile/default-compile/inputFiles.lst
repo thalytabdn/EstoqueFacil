@@ -1,0 +1,17 @@
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/service/ProdutoService.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/util/CustomErrorType.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/exceptions/ObjetoJaExistenteException.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/controller/RestApiController.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/config/SwaggerConfig.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/exceptions/ObjetoInexistenteException.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/repositories/ProdutosRepository.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/EstoqueFacilRestApi.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/model/DTO/LoteDTO.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/service/LoteServiceImpl.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/util/ObjWrapper.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/model/Lote.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/service/LoteService.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/exceptions/ObjetoInvalidoException.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/service/ProdutoServiceImpl.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/com/ufcg/psoft/model/Produto.java
+/home/thalyta/rae/projeto-psoft-grupo-14/src/main/java/exceptions/Rep.java
