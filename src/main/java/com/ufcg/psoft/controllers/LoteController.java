@@ -41,7 +41,7 @@ public class LoteController {
 	}
 
 	// -------------------Criar Lote-------------------
-    @PostMapping("/admin/lote/{id}")
+    @PostMapping("/lote/{id}")
 	public ResponseEntity<?> criarLote(@PathVariable("id") long produtoId, @RequestBody Lote lote) throws Exception {
 		Produto produto = produtoBean.findById(produtoId);
 
@@ -70,7 +70,7 @@ public class LoteController {
 	}
 
 	// -------------------Listar Lotes-------------------
-	@GetMapping("/admin/lote")
+	@GetMapping("/lote")
 	public ResponseEntity<List<Lote>> listAllLotess() {
 		List<Lote> lotes = loteBean.findAllLotes();
 

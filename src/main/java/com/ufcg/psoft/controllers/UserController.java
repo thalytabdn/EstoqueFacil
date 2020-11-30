@@ -1,77 +1,60 @@
 package com.ufcg.psoft.controllers;
 
+import com.ufcg.psoft.model.User;
+import com.ufcg.psoft.model.DTO.UserDTO;
+import com.ufcg.psoft.service.user.UserBean;
+import com.ufcg.psoft.util.CustomErrorType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ufcg.psoft.model.User;
-import com.ufcg.psoft.model.DTO.UserDTO;
-import com.ufcg.psoft.service.user.UserBean;
-import com.ufcg.psoft.service.user.UserService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
-@Api("API REST Users")
-@CrossOrigin()
+@CrossOrigin
 public class UserController {
-	
-	@Autowired
-	UserService userService = new UserBean();
-	
-	@RequestMapping(value = "/user/admin", method = RequestMethod.POST)
-	@ApiOperation(value="Criar usuario admin")
-	public ResponseEntity<?> criarUserAdmin(@RequestBody UserDTO userDTO) {
-		
-		String nome = userDTO.getNome();
-		String sobrenome = userDTO.getSobrenome();
-		String senha = userDTO.getSenha();
-		String email = userDTO.getEmail();
-		
-		User user = new User(nome, sobrenome, senha, email);
-		
-		User userCreated = this.userService.createAdmin(user);
-		
-		UserDTO resposta = new UserDTO();
-		resposta.setId(userCreated.getId());
-		resposta.setNome(userCreated.getNome());
-		resposta.setSobrenome(userCreated.getSobrenome());
-		resposta.setEmail(userCreated.getEmail());
-		resposta.setCargoUser(userCreated.getCargoSistema().getUserRole().toString());
-		
+    
+    @Autowired
+    private UserBean userBean;
 
-		return new ResponseEntity<>(resposta, HttpStatus.CREATED);
-	}
-	
-	@RequestMapping(value = "/public/user/cliente", method = RequestMethod.POST)
-	@ApiOperation(value="Criar cliente")
-	public ResponseEntity<?> criarUserCliente(@RequestBody UserDTO userDTO) {
-		
-		String nome = userDTO.getNome();
-		String sobrenome = userDTO.getSobrenome();
-		String senha = userDTO.getSenha();
-		String email = userDTO.getEmail();
-		
-		User user = new User(nome, sobrenome, senha, email);
-		
-		User userCreated = this.userService.createCliente(user);
-		
-		UserDTO resposta = new UserDTO();
-		resposta.setId(userCreated.getId());
-		resposta.setNome(userCreated.getNome());
-		resposta.setSobrenome(userCreated.getSobrenome());
-		resposta.setEmail(userCreated.getEmail());
-		resposta.setCargoUser(userCreated.getCargoSistema().getUserRole().toString());
-		
-
-		return new ResponseEntity<>(resposta, HttpStatus.CREATED);
+    public UserController(UserBean userBean){
+        super();
+		this.userBean = userBean;
 	}
 
+
+    // -------------------Criar Usuario-------------------
+    @PostMapping("/user")
+    public ResponseEntity<?> criaUser(@RequestBody User user){
+
+        if (userBean.doesUserExist(user)){
+            return new ResponseEntity(new CustomErrorType("Email ja cadastrado!"), HttpStatus.CONFLICT);
+        }
+
+        UserDTO userDTO = new UserDTO(user);
+        this.userBean.createUser(user);
+
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
+    }
+
+    // -------------------Consulta Usuario-------------------
+    @GetMapping("/user/{email}")
+    public ResponseEntity<?> consultaUsuario(@PathVariable("email") String email) {
+        
+		try {
+            User userAux = userBean.findByEmail(email);
+            UserDTO userDTO = new UserDTO(userAux);
+			return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("User with email " + email + " was not found"),
+				HttpStatus.NOT_FOUND);
+		}
+    }
 }

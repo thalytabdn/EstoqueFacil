@@ -18,16 +18,17 @@ public class CompraBean implements CompraService {
 
     @Override
     public List<Compra> findAllCompras(String order) {
-        if (order == null) {
+        if(order == null){
             order = "";
         }
-        if (order.equals("data")) {
+        if(order.equals("data")){
             return compraDAO.getCompraByDataCompra();
-        } else if (order.equals("preco")) {
+        }else if (order.equals("preco")){
             return compraDAO.getCompraByValorCompra();
-        } else if (order.equals("status")) {
+        }else if (order.equals("status")){
             return compraDAO.getCompraByStatus();
-        } else {
+        }
+        else{
             return compraDAO.findAll();
         }
     }
@@ -40,6 +41,7 @@ public class CompraBean implements CompraService {
     @Override
     public void updateCompra(Compra compra) {
         compraDAO.save(compra);
+
     }
 
     @Override
@@ -54,10 +56,11 @@ public class CompraBean implements CompraService {
 
     @Override
     public Compra findById(long id) {
-        return compraDAO.findById(id).get();
-    }
+		return compraDAO.findById(id).get();
+	}
 
-    public List<Compra> getByStatus(StatusCompra status) {
-        return this.compraDAO.getByStatus(status);
+	public List<Compra> getByStatus(StatusCompra status) {
+		return this.compraDAO.getByStatus(status);
     }
+    
 }

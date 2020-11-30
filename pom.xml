@@ -17,17 +17,6 @@
 	</properties>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
@@ -126,6 +115,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.7.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -152,15 +146,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.3.RELEASE</version>
-                <configuration>
-                    <mainClass>com.ufcg.psoft.EstoqueFacilRestApi</mainClass>
-                </configuration>
-            </plugin>
 		</plugins>
 	</build>
 

@@ -13,10 +13,13 @@ public class CompraValidator {
     private ProdutoValidator validaProduto;
 
     public void ValidaCompra(Compra compra) throws Exception {
+
         List<Produto> produtos = compra.getProdutos();
         
         for (Produto produto : produtos) {
             validaProduto.ValidProduto(produto);
         }
+        
+       
     }
 }

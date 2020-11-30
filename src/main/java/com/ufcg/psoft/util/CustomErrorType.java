@@ -1,5 +1,6 @@
 package com.ufcg.psoft.util;
 
+
 public class CustomErrorType {
 
     private String errorMessage;

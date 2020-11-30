@@ -125,6 +125,7 @@ public class LoteBean implements LoteService {
 		registroFinal.add("Receita arrecadada: R$" + receitaArrecadada.toString());
 
 		return registroFinal;
+
 	}
 
 	public void atualizaSituacaoProduto(List<Produto> produtos) throws Exception {
@@ -137,4 +138,5 @@ public class LoteBean implements LoteService {
 			}
 		}
 	}
+
 }

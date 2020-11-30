@@ -37,7 +37,7 @@ public class ProdutoController {
 	}
 
 	// ------------------- Retorna todos os Produtos -------------------
-	@GetMapping("/public/produto")
+	@GetMapping("/produto")
 	public ResponseEntity<List<Produto>> listAllProdutos(@RequestParam (required = false) String order) {
 		List<Produto> produtos = produtoBean.findAllProdutos(order);
 
@@ -49,7 +49,7 @@ public class ProdutoController {
 	}
 
 	// -------------------Criar um Produto-------------------
-	@PostMapping("/admin/produto")
+	@PostMapping("/produto")
 	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) {
 
 		if (produtoBean.doesProdutoExist(produto)){
@@ -62,7 +62,7 @@ public class ProdutoController {
 	}
 
 	// -------------------Consultar um Produto-------------------
-	@GetMapping("/public/produto/{id}")
+	@GetMapping("/produto/{id}")
 	public ResponseEntity<?> consultarProduto(@PathVariable("id") long id) {
 
 		try {
@@ -78,7 +78,7 @@ public class ProdutoController {
 	}
 
 	// ------------------- Update Produto -------------------
-	@PutMapping("/admin/produto/{id}")
+	@PutMapping("/produto/{id}")
 	public ResponseEntity<?> updateProduto(@PathVariable("id") long id, @RequestBody Produto produto) {
 
 		Produto produtoAux = produtoBean.findById(id);
@@ -115,7 +115,7 @@ public class ProdutoController {
 
 
 	// ------------------- Delete Produto -------------------
-	@DeleteMapping("/admin/produto/{id}")
+	@DeleteMapping("/produto/{id}")
 	public ResponseEntity<?> deleteProduto(@PathVariable("id") long id) {
 
 		Produto produtoAux = produtoBean.findById(id);

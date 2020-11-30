@@ -1,24 +1,15 @@
 package com.ufcg.psoft.service.user;
 
-import java.util.List;
-
 import com.ufcg.psoft.model.User;
 
 public interface UserService {
-	
-	List<User> findAllUsers();
 
-	User findUserById(long id) throws Exception;
-	
-	User findUserByEmail(String email) throws Exception;
+    boolean doesUserExist(User user);
 
-	void updateUser(User user) throws Exception;
+    boolean validaSenhaUsuario(User user);
 
-	void deleteUserById(long id) throws Exception;
-	
-	User createAdmin(User user);
-	
-	User createCliente(User user);
+    User createUser(User user);
 
-	boolean validaSenhaUsuario(User user);
+    User findByEmail(String email);
+
 }

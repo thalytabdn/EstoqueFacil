@@ -8,5 +8,6 @@ import org.springframework.stereotype.Component;
 public class ProdutoValidator {
     
     public void ValidProduto(Produto produto) throws Exception {
+       
     }
 }

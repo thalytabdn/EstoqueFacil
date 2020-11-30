@@ -1,83 +1,41 @@
 package com.ufcg.psoft.model.DTO;
 
-import javax.persistence.Column;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufcg.psoft.model.User;
 public class UserDTO {
-	
-private String nome;
 
-	private Long id;
-	
-	private String sobrenome;
-	
-	private String senha;
-	
-	@Column(unique = true)
-	private String email;
-	
-	private String cargoUser;
-	
-	public UserDTO() {}
-	
-	
-	public UserDTO(String nome, Long id, String sobrenome, String senha, String email, String cargoUser) {
-		super();
-		this.nome = nome;
-		this.id = id;
-		this.sobrenome = sobrenome;
-		this.senha = senha;
-		this.email = email;
-		this.cargoUser = cargoUser;
-	}
+    private User user;
 
+    public UserDTO(User user){
+        this.user = user;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    @JsonIgnore
+    public User getUser(){
+        return user;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getEmail(){
+        return this.user.getEmail();
+    }
 
-	public String getSobrenome() {
-		return sobrenome;
-	}
+    public void setEmail(String email){
+        this.user.setEmail(email);
+    }
 
-	public void setSobrenome(String sobrenome) {
-		this.sobrenome = sobrenome;
-	}
-	
-	public String getSenha() {
-		return senha;
-	}
+    public String getFirstName(){
+        return user.getFirstName();
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public void setFirstName(String firstName){
+        user.setFirstName(firstName);
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getLastName(){
+        return user.getLastName();
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getCargoUser() {
-		return cargoUser;
-	}
-
-
-	public void setCargoUser(String cargoUser) {
-		this.cargoUser = cargoUser;
-	}
+    public void setLastName(String lastName){
+        user.setLastName(lastName);
+    }
 }

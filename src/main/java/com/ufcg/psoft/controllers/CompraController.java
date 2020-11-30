@@ -39,14 +39,14 @@ public class CompraController {
     private LoteBean LoteBean;
 
     // -------------------Cria compra-------------------
-    @PostMapping("/public/compra")
+    @PostMapping("/compra")
     public ResponseEntity<Compra> criaCompra(@RequestBody Compra compra){
         compraBean.saveCompra(compra);
         return new ResponseEntity<Compra>(compra, HttpStatus.OK);
     };
 
     // ------------------- Retorna todos as Compras -------------------
-	@GetMapping("/admin/compra")
+	@GetMapping("/compra")
 	public ResponseEntity<List<Compra>> listAllCompras(@RequestParam (required = false) String order) {
 		List<Compra> compras = compraBean.findAllCompras(order);
 
@@ -58,7 +58,7 @@ public class CompraController {
 	}
 
     // -------------------Adiciona produto em Compra-------------------
-    @PutMapping("/cliente/compra/{idCompra}/{idProduto}")
+    @PutMapping("/compra/{idCompra}/{idProduto}")
     public ResponseEntity<?> addProduto(@PathVariable("idCompra") long idCompra,
         @PathVariable("idProduto") long idProduto) {
         
@@ -85,7 +85,7 @@ public class CompraController {
     }
 
     // -------------------Finaliza compra-------------------
-    @PutMapping("/cliente/compra/{idCompra}")
+    @PutMapping("/compra/{idCompra}")
     public ResponseEntity<?> finalizarCompra(@PathVariable("idCompra") long idCompra) throws Exception {
         Compra compraAux = compraBean.findById(idCompra);
         List<Produto> produtos = compraAux.getProdutos();

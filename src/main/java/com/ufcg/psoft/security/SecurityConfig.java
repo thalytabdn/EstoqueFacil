@@ -1,5 +1,10 @@
 package com.ufcg.psoft.security;
 
+import java.util.Arrays;
+
+import com.ufcg.psoft.security.filters.JwtAuthenticationFilter;
+import com.ufcg.psoft.security.filters.JwtAuthorizationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,28 +18,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.security.authentication.AuthenticationManager;
-
-import java.util.Arrays;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    org.springframework.security.authentication.AuthenticationManager AuthenticationManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("api/auth/login").permitAll()
-                .antMatchers("/*/public/**").permitAll()
-                .antMatchers("/*/admin/**").hasRole("ADMIN")
-                .antMatchers("/*/cliente/**").hasRole("CLIENTE")
-                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-              //  .anyRequest().authenticated()
+                .antMatchers("auth/login").permitAll()
+                .antMatchers("/api/user").permitAll()
+                .antMatchers("/api/relatorio/produtos").permitAll()
+                .antMatchers("/api/compra/**").permitAll()
+                .antMatchers("/api/produto/**").permitAll()
+                .antMatchers("/api/lote/**").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/", "/**", "/webjars/").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
@@ -44,24 +48,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.parentAuthenticationManager(authenticationManager);
-
+        auth.parentAuthenticationManager(AuthenticationManager);
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("*"));
-        // Maybe I can just say "*" for methods and headers
-        // I just copied these lists from another Dropwizard project
+        config.setAllowedOrigins(Arrays.asList("http://127.0.0.1:8080", "http://localhost:8080"));
+        
         config.setAllowedMethods(Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD"));
         config.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept",
                 "Authorization", "Access-Control-Allow-Credentials", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods",

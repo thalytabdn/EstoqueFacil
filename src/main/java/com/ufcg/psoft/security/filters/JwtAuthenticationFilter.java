@@ -1,8 +1,9 @@
-package com.ufcg.psoft.security;
+package com.ufcg.psoft.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ufcg.psoft.model.User;
 import com.ufcg.psoft.model.DTO.TokenDTO;
-import com.ufcg.psoft.model.DTO.UserLoginDTO;
+import com.ufcg.psoft.security.ConstantesSeguranca;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
 
-        setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+        setFilterProcessesUrl(ConstantesSeguranca.AUTH_LOGIN_URL);
     }
 
     @Override
@@ -34,9 +34,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String password = "";
         try {
             ObjectMapper mapper = new ObjectMapper();
-            UserLoginDTO user = mapper.readValue(request.getInputStream(), UserLoginDTO.class);
+            User user = mapper.readValue(request.getInputStream(), User.class);
             username = user.getEmail();
-            password = user.getSenha();
+            password = user.getPassword();
         } catch (Exception e) {
 
         }
@@ -48,22 +48,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain filterChain, Authentication authentication) {
-        long user = (long) authentication.getPrincipal();
+        String user = (String) authentication.getPrincipal();
 
-        byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
+        byte[] signingKey = ConstantesSeguranca.JWT_SECRET.getBytes();
 
         String token = Jwts.builder()
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS256)
-                .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
-                .setIssuer(SecurityConstants.TOKEN_ISSUER)
-                .setAudience(SecurityConstants.TOKEN_AUDIENCE)
-                .setSubject(Long.toString(user))
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setHeaderParam("typ", ConstantesSeguranca.TOKEN_TYPE)
+                .setIssuer(ConstantesSeguranca.TOKEN_ISSUER)
+                .setAudience(ConstantesSeguranca.TOKEN_AUDIENCE)
+                .setSubject(user)
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .compact();
 
-        response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader(ConstantesSeguranca.TOKEN_HEADER, ConstantesSeguranca.TOKEN_PREFIX + token);
         try {
-            TokenDTO tokenDTO = new TokenDTO(SecurityConstants.TOKEN_PREFIX + token);
+            TokenDTO tokenDTO = new TokenDTO(ConstantesSeguranca.TOKEN_PREFIX + token);
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(tokenDTO);
             response.setContentType("application/json");
@@ -73,5 +73,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         }
     }
-
 }
