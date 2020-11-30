@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EstoqueFacilRestApi<EstoqueFacil-Psoft>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.ufcg.psoft.EstoqueFacilRestApi",
+            "projectName": "EstoqueFacil-Psoft",
+            "args": ""
+        }
+    ]
+}
